@@ -1,0 +1,21 @@
+#!/usr/bin/perl
+
+use v5.14;
+use strict;
+use warnings qw( FATAL all );
+use autodie;
+
+@ARGV == 3  or die "usage: $0 ADDRESS INFILE OUTFILE\n";
+my( $address, $infile, $outfile ) = @ARGV;
+$address =~ /^(?:0x)?([0-9a-f]{1,8})\z/ or die "malformed address: $address\n";
+$address = hex $1;
+
+open my $in, '<:raw', $infile;
+undef $/;
+my $data = <$in>;
+close $in;
+
+open my $out, '>:raw', $outfile;
+print {$out} pack "(LL)<", $address, length $data;
+print {$out} $data;
+close $out;
