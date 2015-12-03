@@ -16,6 +16,6 @@ my $data = <$in>;
 close $in;
 
 open my $out, '>:raw', $outfile;
-print {$out} pack "(LL)<", $address, length $data;
+print {$out} pack "(LL)<", length $data, $address;
 print {$out} $data;
 close $out;
