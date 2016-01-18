@@ -20,8 +20,8 @@ for a FAT filesystem (either whole-card or in a partition marked
 'active'/bootable). The MLO should be located in a file named "MLO" in the root
 of the filesystem.
 
-**Note:** Contrary to what the AM335x TRM suggests, raw MMC boot also works for
-SD cards, not just for eMMC.
+**Note:** Contrary to what the AM335x TRM used to indicate (prior to rev M),
+raw MMC boot also works for SD cards, not just for eMMC.
 
 **Caution:** The examples below destroy existing content of the card.
 
