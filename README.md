@@ -10,6 +10,7 @@ Output files produced are:
 * ``demo.elf`` suitable for JTAG upload and debugging
 * ``demo.bin`` suitable for peripheral boot (UART, Ethernet, USB) and XIP
 * ``demo.MLO`` suitable for memory boot (μSD, eMMC, SPI, NAND)
+* ``demo.img`` suitable for writing directly to μSD or eMMC
 
 #### Booting: μSD/eMMC
 
@@ -23,9 +24,21 @@ of the filesystem.
 **Note:** Contrary to what the AM335x TRM used to indicate (prior to rev M),
 raw MMC boot also works for SD cards, not just for eMMC.
 
-**Caution:** The examples below destroy existing content of the card.
+##### Example (raw mmc boot, prefab image)
+
+**Caution:** This destroys existing contents of the card.
+
+```bash
+dev=/dev/mmcblk0
+
+dd if=demo.img of=$dev
+```
 
 ##### Example (raw mmc boot)
+
+**Caution:** This overwrites sectors 1 and 2 of the card and may overwrite any
+existing bootloader.  It should not affect any existing partitions that start
+at sector 3 or higher.
 
 ```bash
 dev=/dev/mmcblk0
@@ -43,6 +56,8 @@ damaged by repartitioning.
 
 ##### Example (FAT partitioned)
 
+**Caution:** This destroys existing contents of the card.
+
 ```bash
 dev=/dev/mmcblk0
 mountpoint=/mnt/tmp
@@ -54,7 +69,6 @@ mount ${dev}p1 $mountpoint
 cp demo.MLO $mountpoint/MLO
 umount $mountpoint
 ```
-
 #### Booting: Ethernet/USB
 
 Boot ROM tries to download a peripheral boot image using BOOTP and TFTP. See

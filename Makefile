@@ -35,10 +35,10 @@ LDFLAGS = -static -nostartfiles
 LDFLAGS += -Wl,--build-id=none
 
 
-all :: demo.elf demo.bin demo.MLO
+all :: demo.elf demo.bin demo.MLO demo.img
 
 clean ::
-	${RM} *.elf *.bin *.MLO *.o
+	${RM} *.elf *.bin *.MLO *.img *.o
 
 demo.elf: demo.ld *.S *.h
 	${LINK.S} -T ${^:%.h=} ${LOADLIBES} ${LDLIBS} ${OUTPUT_OPTION}
@@ -49,5 +49,10 @@ demo.elf: demo.ld *.S *.h
 
 %.MLO: %.bin
 	bin/mk-gpimage 0x402f0400 $< $@
+
+%.img: %.MLO
+	cp extra/raw-mmc-header.img $@
+	dd if=$< of=$@ iflag=fullblock conv=sync seek=1 status=none
+	echo 'label: dos' | sfdisk --quiet $@
 
 .DELETE_ON_ERROR:
