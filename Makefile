@@ -6,6 +6,8 @@ CC = ${CROSS_COMPILE}gcc
 CXX = ${CROSS_COMPILE}g++
 OBJCOPY = ${CROSS_COMPILE}objcopy
 
+PATH := ${PATH}:/usr/local/sbin:/usr/sbin:/sbin
+
 target_flags = -mcpu=cortex-a8
 ifdef use_fpu
 # note that you need to enable it in the cpu before executing any C/C++ code
@@ -53,6 +55,6 @@ demo.elf: demo.ld *.S *.h
 %.img: %.MLO
 	cp extra/raw-mmc-header.img $@
 	dd if=$< of=$@ iflag=fullblock conv=sync seek=1 status=none
-	echo 'label: dos' | sfdisk --quiet $@
+	echo 'label: dos' | /sbin/sfdisk --quiet $@
 
 .DELETE_ON_ERROR:
