@@ -49,3 +49,5 @@ demo.elf: demo.ld *.S *.h
 
 %.MLO: %.bin
 	bin/mk-gpimage 0x402f0400 $< $@
+
+.DELETE_ON_ERROR:
