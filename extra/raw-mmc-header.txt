@@ -11,7 +11,7 @@ First the TOC:
 (entry 0)
 00000000  u32  offset	= 0x40	(relative to start of CH)
 00000004  u32  size	= 0x0c
-00000008  00 00 00 00 00 00 00 00 00 00 00 00	reserved
+00000008  00 00 00 00 00 00 00 00 00 00 00 00	(reserved)
 00000014  char name[12]	= "CHSETTINGS"	(with nul-termination and padding byte)
 
 (entry 1)
@@ -25,8 +25,7 @@ Then config section 0 (CHSETTINGS):
 00000040  u32 key	= 0xc0c0c0c1	(required for CHSETTINGS)
 00000044  u8  enabled	= false		(config section not used)
 00000045  u8  version	= 1		(required)
-00000046  u16		= 0		(reserved)
-00000048  u32		= 0		(reserved)
+00000046  00 00 00 00 00 00		(reserved)
 
 
 The remaining bytes of the sector are ignored, hence this header can coexist
